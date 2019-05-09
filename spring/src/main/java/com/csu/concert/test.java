@@ -15,6 +15,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 〈一句话功能简述〉<br> 
  * 〈f〉
@@ -28,7 +31,7 @@ public class test {
 
     public static void main(String[] args) {
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+       /* ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
 
         Performance performance = (Performance)context.getBean("performanceImpl");
 
@@ -38,8 +41,16 @@ public class test {
 
             System.out.println("ddddddddddd");
         }
-        System.out.println("wwwwwwwwwwwwwwwww");
+        System.out.println("wwwwwwwwwwwwwwwww");*/
 
+
+       List<String> list = new ArrayList<String>(5);
+
+       list.add("1");
+       list.add("2");
+       list.add("3");
+       list.remove(1);
+       System.out.println(list.get(1));
 
     }
 }
