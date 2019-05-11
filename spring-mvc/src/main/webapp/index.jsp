@@ -1,23 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
-</head>
-<script src="js/jquery-3.1.0.js"/>
-<script src="js/jquery.json-2.4.js"/>
-<script type="text/javascript">
+<head>
+    <title>Title</title>
+    <script src="js/jquery-3.1.0.js"></script>
+    <script src="js/jquery.json-2.4.js"></script>
+    <script type="text/javascript" >
 
-    $(function() {
+        $(function() {
 
-        $("#t").click(function() {
+        });
+
+    function test() {
             var  name = $("#name").val();
             var  password = $("#password").val();
             alert("ssssssssssss");
             $.ajax({
 
                 type : "GET",
-                url : "${application.getContext()}/login?name=" + name + "&password="+password,
+                url : "login.do?name=" + name + "&password="+password,
                 data : "",
                 dataType : "json",
+                contentType : 'application/json;charset=utf-8',
                 async : false,
                 error : function(request) {
 
@@ -32,25 +37,23 @@
 
             });
 
-        });
-
-    });
-
-</script>
+        }
+    </script>
 </head>
-
-    <body>
-        <h2>Hello World!</h2>
-
-        <form action="" >
-            <input type="text" id="name" name="name"/>
-             <br>
-            <input type="text" id="password" name="password"/>
-            <input type="button" id="t" value="提交" />
+<body>
 
 
-        </form>
 
-    </body>
+    <input type="text" id="name" name="name" />
+</br>
+    <input type="text" id="password" name="password" />
+    <input type="button" id="tst" value="sss" onclick="test()"/>
+qqqqqqqq
+wwwwwwwwwww
+ssss
 
+
+dsffd
+
+</body>
 </html>

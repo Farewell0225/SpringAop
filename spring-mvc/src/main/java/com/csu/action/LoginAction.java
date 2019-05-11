@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Controller
 public class LoginAction {
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/login.do",method = RequestMethod.GET)
     @ResponseBody
     public Map<String,String> login(@RequestParam( value = "name" ) String userName,@RequestParam(value = "password") String passWord){
 

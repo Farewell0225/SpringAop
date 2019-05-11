@@ -12,7 +12,12 @@
     <!--否则无法访问js等资源-->
     <mvc:default-servlet-handler/>
     <context:component-scan base-package="com.csu"/>
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <!--https://blog.csdn.net/qq_28802119/article/details/82993266-->
     <!-- HandlerMapping -->
     <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
