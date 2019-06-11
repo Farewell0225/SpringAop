@@ -1,4 +1,4 @@
-package com.csu.springboot;
+package com.csu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
