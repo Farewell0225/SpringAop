@@ -1,0 +1,45 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/admanager?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: yuanlin
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+server:
+  port: 8443
+  ssl:
+    key-store: mykeys.jks
+    key-store-password: yuanlin
+    key-password: yuanlin
+    key-alias: tomcat
+  servlet:
+    context-path: /springboot
+logging:
+  level:
+    root: WARM
+    com.csu: debug
+  path:
+  file: springboot.log
+  config:
+    classpath*: logging-config.xml
+mybatis:
+  type-aliases-package: com.csu.entity
+  mapper-locations:
+    - classpath*: com/csu/mapper/*Mapper.xml
+    - classpath*: com/csu/mapper/**/*Mapper.xml
+c3p0:
+  minPoolSize: 2
+  maxPoolSize: 10
+  maxIdleTime: 1800000
+  acquireIncrement: 3
+  maxStatements: 1000
+  initialPoolSize: 3
+  idleConnectionTestPeriod: 60
+  acquireRetryAttempts: 30
+  acquireRetryDelay: 1000
+  breakAfterAcquireFailure: false
+  testConnectionOnCheckout: false
+
+
