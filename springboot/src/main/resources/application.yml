@@ -18,7 +18,7 @@ server:
     context-path: /springboot
 logging:
   level:
-    root: WARM
+    root: warn
     com.csu: debug
   path:
   file: springboot.log
@@ -26,9 +26,10 @@ logging:
     classpath*: logging-config.xml
 mybatis:
   type-aliases-package: com.csu.entity
-  mapper-locations:
-    - classpath*: com/csu/mapper/*Mapper.xml
-    - classpath*: com/csu/mapper/**/*Mapper.xml
+  mapperlocations:
+    - classpath*:com/csu/mapper/*Mapper.xml
+    - classpath*:com/csu/mapper/**/*Mapper.xml
+  type-handlers-package: com.csu.dao
 c3p0:
   minPoolSize: 2
   maxPoolSize: 10
