@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csu.dao.TransactionMapper">
+
+    <update id="updateRole">
+     update role set memo = #{memo} where roleid = #{roleId}
+
+    </update>
+
+    <!--&lt;!&ndash;useGeneratedKeys="true" 给主键自动增长&ndash;&gt;
+    <insert id="insertUser"  parameterType="com.csu.entity.Users">
+      <selectKey resultType="java.lang.Integer"  order="AFTER" keyProperty="userId" keyColumn="UserId">
+          SELECT LAST_INSERT_ID()
+      </selectKey>
+
+      INSERT INTO users(deptId,roleId,userName,account,password,certiFicate,position,sex,officeTel,mobile,email,memo)
+      VALUE(#{deptId},#{roleId},#{userName},#{account},#{password},#{certiFicate},#{position},#{sex},#{officeTel},#{mobile},#{email},#{memo});
+
+    </insert>
+-->
+
+    <insert id="insertUser"  parameterType="com.csu.entity.Users">
+        <selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="userId" keyColumn="UserId">
+            SELECT uuid()
+        </selectKey>
+
+        INSERT INTO users(userId,deptId,roleId,userName,account,password,certiFicate,position,sex,officeTel,mobile,email,memo)
+        VALUE(#{userId},#{deptId},#{roleId},#{userName},#{account},#{password},#{certiFicate},#{position},#{sex},#{officeTel},#{mobile},#{email},#{memo});
+
+    </insert>
+
+</mapper>

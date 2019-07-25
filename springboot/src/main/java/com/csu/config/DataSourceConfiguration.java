@@ -80,7 +80,6 @@ public class DataSourceConfiguration {
     @Bean(name = "dataSource")
     public DataSource createDatasource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
-
         dataSource.setDriverClass(jdbcDriver);
         dataSource.setJdbcUrl(jdbcUrl);
         dataSource.setUser(jdbcUser);

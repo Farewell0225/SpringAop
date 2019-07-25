@@ -10,8 +10,12 @@
  */
 package com.csu.config;
 
+import jdk.internal.dynalink.beans.StaticClass;
 import org.apache.commons.lang3.ArrayUtils;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
@@ -42,18 +46,18 @@ public class SessionFactoryConfiguration {
     @Value("${mybatis.mapperlocations}")
     private List<String> mapperLocations;*/
 
-    // 使用基于接口扫描的mybatis,设置mapper接口所在的包路径
-    @Value("${mybatis.type-handlers-package}")
-    private String typeHandlersPackage;
-
     @Value("${mybatis.type-aliases-package}")
     private String typeAliasesPackage;
 
+    @Value("${mybatis.sqlSessionFactory.name}")
+    private String sqlSessionFactoryBeanName;
 
     @Autowired
     private DataSource dataSource;
 
-    @Bean(name="sqlSessionFactory")
+    private static final Logger log = LoggerFactory.getLogger("SS.log");
+
+    @Bean(name="${mybatis.sqlSessionFactory.name}")
     public SqlSessionFactoryBean createSqlSessionFactory() throws IOException {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         List<String> mapperLocations = propertyConfig.getMapperlocations();
@@ -62,12 +66,12 @@ public class SessionFactoryConfiguration {
                 new PathMatchingResourcePatternResolver[length];
         Resource [] mapperLocationsResources = null;
         /* String[] str1 = {"Hello","world","java"};
-    String[] str2 = {"Veriable","syntax","interator"};
-    int str1Length = str1.length;
-    int str2length = str2.length;
+            String[] str2 = {"Veriable","syntax","interator"};
+            int str1Length = str1.length;
+            int str2length = str2.length;
 
-    str1 = Arrays.copyOf(str1, str1Length+str2length);//数组扩容
-    System.arraycopy(str2, 0, str1, str1Length, str2length);*/
+            str1 = Arrays.copyOf(str1, str1Length+str2length);//数组扩容
+            System.arraycopy(str2, 0, str1, str1Length, str2length);*/
 
         for (int i = 0 ; i < length ; i++){
             resolver[i] =
@@ -99,9 +103,13 @@ public class SessionFactoryConfiguration {
         // 设置 entity 接口所在的包设置别名
         sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
 
-        sqlSessionFactoryBean.setTypeHandlersPackage(typeHandlersPackage);
+        /**
+         * 设置自定义的类型处理器，而非MapperScan扫描的接口
+         * sqlSessionFactoryBean.setTypeHandlersPackage(typeHandlersPackage);
+         */
+
+
         return sqlSessionFactoryBean;
     }
-
 
 }

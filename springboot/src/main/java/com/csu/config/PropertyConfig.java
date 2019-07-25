@@ -31,11 +31,21 @@ import java.util.List;
 public class PropertyConfig{
     private List<String> mapperlocations;
 
+    private String basePackage;
+
     public List<String> getMapperlocations() {
         return mapperlocations;
     }
 
     public void setMapperlocations(List<String> mapperlocations) {
         this.mapperlocations = mapperlocations;
+    }
+
+    public String getBasePackage() {
+        return basePackage;
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
     }
 }

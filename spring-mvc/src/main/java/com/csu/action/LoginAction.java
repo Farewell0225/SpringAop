@@ -10,6 +10,8 @@
  */
 package com.csu.action;
 
+import com.csu.biz.CursorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,10 @@ import java.util.Map;
  */
 @Controller
 public class LoginAction {
+
+    @Autowired
+    private CursorService cursorService;
+
     @RequestMapping(value = "/login.do",method = RequestMethod.GET)
     @ResponseBody
     public Map<String,String> login(@RequestParam( value = "name" ) String userName,@RequestParam(value = "password") String passWord){
@@ -40,6 +46,9 @@ public class LoginAction {
         System.out.println("name = " + userName);
         System.out.println("password = " + passWord);
 
+        String result= cursorService.selectCursor();
+
+        System.out.println("游标返回：" + result);
 
         return resMap;
     }

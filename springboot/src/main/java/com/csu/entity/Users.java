@@ -1,33 +1,12 @@
-/*
-*
- * Copyright (C), 2018-2019, XXX有限公司
- * FileName: UsersEntity
- * Author:   yuanlin_csu
- * Date:     2019/5/21 11:02
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
-
 
 package com.csu.entity;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-*
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author yuanlin_csu
- * @create 2019/5/21
- * @since 1.0.0
-@Entity
-@Table(name = "users", schema = "admanager", catalog = "")
 public class Users {
 
 
-    private int userId;
+    private String userId;
     private String deptId;
     private String roleId;
     private String userName;
@@ -41,18 +20,16 @@ public class Users {
     private String email;
     private String memo;
 
-    @Id
-    @Column(name = "UserId")
-    public int getUserId() {
+
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "UserName")
+
     public String getUserName() {
         return userName;
     }
@@ -61,8 +38,6 @@ public class Users {
         this.userName = userName;
     }
 
-    @Basic
-    @Column(name = "Account")
     public String getAccount() {
         return account;
     }
@@ -71,8 +46,7 @@ public class Users {
         this.account = account;
     }
 
-    @Basic
-    @Column(name = "Password")
+
     public String getPassword() {
         return password;
     }
@@ -81,8 +55,7 @@ public class Users {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "CertiFicate")
+
     public String getCertiFicate() {
         return certiFicate;
     }
@@ -91,8 +64,7 @@ public class Users {
         this.certiFicate = certiFicate;
     }
 
-    @Basic
-    @Column(name = "Position")
+
     public String getPosition() {
         return position;
     }
@@ -101,8 +73,6 @@ public class Users {
         this.position = position;
     }
 
-    @Basic
-    @Column(name = "Sex")
     public String getSex() {
         return sex;
     }
@@ -111,8 +81,7 @@ public class Users {
         this.sex = sex;
     }
 
-    @Basic
-    @Column(name = "OfficeTel")
+
     public String getOfficeTel() {
         return officeTel;
     }
@@ -121,8 +90,7 @@ public class Users {
         this.officeTel = officeTel;
     }
 
-    @Basic
-    @Column(name = "Mobile")
+
     public String getMobile() {
         return mobile;
     }
@@ -131,8 +99,7 @@ public class Users {
         this.mobile = mobile;
     }
 
-    @Basic
-    @Column(name = "Email")
+
     public String getEmail() {
         return email;
     }
@@ -141,8 +108,7 @@ public class Users {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "Memo")
+
     public String getMemo() {
         return memo;
     }
@@ -194,4 +160,3 @@ public class Users {
         return Objects.hash(userId, userName, account, password, certiFicate, position, sex, officeTel, mobile, email, memo);
     }
 }
-*/

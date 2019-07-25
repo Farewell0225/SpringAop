@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>错误页面</title>
+    <link rel="stylesheet" th:href="@{/style.css}"></link>
+</head>
+<body>
+
+<div class="errorPage">
+    <span class="oops">Oops!</span><br/>
+    <img th:src="@{/MissingPage.png}"></img>
+    <p>There seems to be a problem with the page you requested
+        (<span th:text="${path}"></span>).</p>
+    <p th:text="${'Details: ' + message}"></p>
+</div>
+
+
+</body>
+</html>

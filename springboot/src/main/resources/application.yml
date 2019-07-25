@@ -1,19 +1,46 @@
 spring:
   thymeleaf:
     cache: false
+    encoding: UTF-8
   datasource:
     url: jdbc:mysql://localhost:3306/admanager?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: yuanlin
-    driver-class-name: com.mysql.jdbc.Driver
     type: com.mchange.v2.c3p0.ComboPooledDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+  profiles:
+    active: production
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id:
+        -- kafka1
+        -- kafka2
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  redis:
+    port: 6379
+    host: 127.0.0.1
+    password: yuanlin
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 2
+    timeout: 5s
+    database: 0
 server:
-  port: 8443
-  ssl:
-    key-store: mykeys.jks
-    key-store-password: yuanlin
-    key-password: yuanlin
-    key-alias: tomcat
+  port: 8445
+#  ssl:
+#    key-store: E:/Tomcat/apache-tomcat-8.0.27/conf/mykeys.jks
+#    key-store-password: yuanlin
+#    key-password: yuanlin
+#    key-alias: tomcat
   servlet:
     context-path: /springboot
 logging:
@@ -21,15 +48,17 @@ logging:
     root: warn
     com.csu: debug
   path:
-  file: springboot.log
+  file: E:/Tomcat/apache-tomcat-8.0.27/logs/springboot.log
   config:
     classpath*: logging-config.xml
 mybatis:
   type-aliases-package: com.csu.entity
+  sqlSessionFactory:
+    name: sqlSessionFactory
   mapperlocations:
     - classpath*:com/csu/mapper/*Mapper.xml
     - classpath*:com/csu/mapper/**/*Mapper.xml
-  type-handlers-package: com.csu.dao
+  base-package: com.csu.dao
 c3p0:
   minPoolSize: 2
   maxPoolSize: 10
@@ -42,5 +71,3 @@ c3p0:
   acquireRetryDelay: 1000
   breakAfterAcquireFailure: false
   testConnectionOnCheckout: false
-
-
