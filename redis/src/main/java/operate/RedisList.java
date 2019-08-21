@@ -44,7 +44,7 @@ public class RedisList {
 
         jedis.connect();
         // 返回参数是啥？
-        String str = jedis.select(1);
+        String str = jedis.select(14);
 
         System.out.println("select res : " + str);
 
@@ -67,6 +67,17 @@ public class RedisList {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
