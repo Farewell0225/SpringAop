@@ -66,14 +66,30 @@ public class TestThread implements Runnable {
         boolean gainLock = false;
         Pipeline pipeline = jedis.pipelined();
 
+        // 为锁设置超时时间，当无法获取到锁时为锁设置，并发下，影响不大，但是需判断，锁本身是否，存在超时时间
         while (System.currentTimeMillis() < endTime) {
 
+            // setnx返回1 成功，0 失败
             if (jedis.setnx(key, Thread.currentThread().getName()) == 1) {
-                // 获取锁成功
+                // 获取锁成功,设置半小时超时
+                jedis.expire(key,1800);
                 System.out.println("线程 " + Thread.currentThread().getName() + " 获取锁成功");
                 gainLock = true;
                 break;
-            }else{
+
+            }else if(jedis.ttl(key)==-1) {
+               /**
+                *  当 key 不存在时，返回 -2 。 当 key
+                *  存在但没有设置剩余生存时间时，返回 -1 。
+                *  否则，以毫秒为单位，返回 key 的剩余生存时间。
+                *  注意：在 Redis 2.8 以前，当 key
+                *  不存在，或者 key 没有设置剩余生存时间时，命令都返回 -1 。
+                */
+               jedis.expire(key,1800);
+
+
+            } else{
+
                 try {
                     TimeUnit.MILLISECONDS.sleep(10);
                 } catch (InterruptedException e) {
