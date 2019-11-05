@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--开启文件变化扫面，设置60秒扫描一次，关闭logback内部运行日志打印-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <property name="appName" value="recordlog"></property>
+    <!--logger的上下文，每个logger都与其相关，定以后无法修改-->
+    <contextName>${appName}</contextName>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</configuration>
+
