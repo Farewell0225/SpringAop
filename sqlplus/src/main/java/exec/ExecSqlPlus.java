@@ -13,7 +13,10 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 import utils.SshConnection;
 
 import java.io.*;
@@ -28,129 +31,90 @@ import java.util.Scanner;
  * @since 1.0.0
  */
 public class ExecSqlPlus {
-
-
-        public static String execCmd(Session session, String cmdStr) throws IOException {
-
-            String resultStr = "";
-            InputStream inSuccess = null;
-            InputStream inErr = null;
-
-            ChannelExec channelExec = null;
-            if (cmdStr != null) {
-                try {
-
-                    channelExec = (ChannelExec) session.openChannel("exec");
-                    // 设置需要执行的shell命令
-                    channelExec.setCommand(cmdStr);
-                    System.out.println("linux命令:" + cmdStr);
-                    //channelExec.setInputStream(null);
-                    //channelExec.setOutputStream(fileOutputStream);
-                    channelExec.setErrStream(System.err);
-                    channelExec.connect();
-                    //读数据
-                    /*int status = channelExec.getExitStatus();
-                    System.out.println("status : " + status);*/
-
-                    inSuccess = channelExec.getInputStream();
-                    resultStr = IOUtils.toString(inSuccess,"UTF-8");
-
-                } catch (JSchException e) {
-                    e.printStackTrace();
-                } finally {
-
-                    IOUtils.closeQuietly(inSuccess);
-
-                    if (null != channelExec) {
-                        channelExec.disconnect();
-                    }
-
-                }
-            }
-
-
-            return resultStr;
-
-
-
-        }
-
-
+        // 已获取的日志文件
+        private static final String logFileStr = "C:\\Users\\yuanlin_csu\\sqlOutTimeInfo.txt";
+        //执行计划输出结果文件
+        private static final String resultFileStr = "C:\\Users\\yuanlin_csu\\explanResultFile.html";
+        // 为每条sql生成的临时脚本文件
+        private static final String execSqlFileStr = "C:\\Users\\yuanlin_csu\\execSql.sql";
+        // 远程数据库的sqlplus 连接信息
+        private static final String sqlplusConnectInfoStr = "sqlplus ipay/ipay@192.168.2.198:1521/dev_orcl";
 
         public static void main(String [] args) throws IOException, InterruptedException {
 
-        /*    int port = 22;
-            String userName = "oracle";
-            String passWord = "oracle";
-            String host = "192.168.2.198";
 
-            Session session = SshConnection.connect(userName,passWord,host,port);
+            // 1.0 读取sql日志文件
 
-            String cmdStr1 = "source .bash_profile && sqlplus ";
+            File sqlLogFile = new File(logFileStr);
 
-            String cmdStr2 = "sqlplus /nolog";*/
+            LineIterator lineIterator = null;
 
-            //Scanner scanner = new Scanner(System.in);
+            // 创建输出结果文件
+            File explanResultFile = new File(resultFileStr);
 
-           // while(scanner.hasNextLine()){
+            lineIterator = FileUtils.lineIterator(sqlLogFile, "UTF-8");
 
-                //String cmd = scanner.nextLine();
+            while(lineIterator.hasNext()){
 
-                //String resStr = execCmd(session,cmdStr1);
+                String sqlInfoStr = lineIterator.next();
 
-                //System.out.println(resStr);
+                String sqlStr = StringUtils.substringBetween(sqlInfoStr,"execQueryBindLimit:[","]");
+                sqlStr = StringUtils.trim(sqlStr);
+                System.out.println("sql : " + sqlStr);
 
-            //}
+                // 组装待执行sql脚本
+                File tmpFile = new File(execSqlFileStr);
+                if(tmpFile.exists() && tmpFile.length()>0){
+                    FileUtils.forceDelete(tmpFile);
+                }
 
+                String cmd1 = "set markup HTML on spool on pre off entmap off \n";
+                String cmd2 = "explain plan for " + sqlStr + ";\n";
+                String cmd3 = "select * from table(dbms_xplan.display);\n";
+                String cmd4 = "exit";
 
+                FileUtils.writeByteArrayToFile(tmpFile,cmd1.getBytes(),true);
+                FileUtils.writeByteArrayToFile(tmpFile,cmd2.getBytes(),true);
+                FileUtils.writeByteArrayToFile(tmpFile,cmd3.getBytes(),true);
+                FileUtils.writeByteArrayToFile(tmpFile,cmd4.getBytes(),true);
 
+                Process process = null;
 
+                Runtime runtime = Runtime.getRuntime();
 
+                String cmdStr = "cmd /c " + sqlplusConnectInfoStr + " @" +
+                        tmpFile.getPath();
 
-            Process process = null;
+                process = runtime.exec(cmdStr);
 
-            Runtime runtime = Runtime.getRuntime();
+                InputStream in = process.getInputStream();
 
-            //String [] cmdStrArray = {"cmd.exe /c E:\\oracle\\product\\BIN\\","sqlplus ipay/ipay@192.168.2.198:1521/dev_orcl",
-             //       "explain plan for select * from t_bui_layout;",
-              //      "select * from table(dbms_xplan.display)"};
-            /*String cmdStr = "cmd /c sqlplus ipay/ipay@192.168.2.198:1521/dev_orcl @C:\\Users\\yuanlin_csu\\testbat.sql";
-            process = runtime.exec(cmdStr,null,new File("C:\\Users\\yuanlin_csu"));
-*/
+                InputStream instream = process.getErrorStream();
+                String res = IOUtils.toString(in,"GBK");
 
-            String cmdStr = "cmd /c sqlplus ipay/ipay@192.168.2.198:1521/dev_orcl";
+                String resErr = IOUtils.toString(instream,"GBK");
 
-            process = runtime.exec(cmdStr);
+                int i  = process.waitFor();
+                System.out.println("status " + i);
 
-            runtime.exec("explain plan for select * from t_bui_layout;");
-
-            runtime.exec("select * from table(dbms_xplan.display);");
-
-            // process = runtime.exec("C:/Windows/System32/cmd.exe /k sqlplus &pause");
-            InputStream in = process.getInputStream();
-
-
-            InputStream instream = process.getErrorStream();
-            String res = IOUtils.toString(in,"GBK");
-
-            String resErr = IOUtils.toString(instream,"GBK");
-
-            int i  = process.waitFor();
-            System.out.println("aaa " + i);
-           /* BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String buf = null;
-            StringBuffer sb = new StringBuffer();
-            while((buf = reader.readLine())!=null){
-                sb.append(buf);
-
-            }*/
+                System.out.println("ERRINFO " + resErr );
+                System.out.println("SUCCESSiNFO " + res);
 
 
-           System.out.println("222 " + resErr );
-            System.out.println("1111 " + res);
+                String nextStr = "<br><br><br>";
+                String headStr = "<span>&nbsp;&nbsp;sql：" + sqlStr + "</span><br>";
+                String resHtmlStr = StringUtils.substringBetween(res,"<p>","<p>");
 
+                FileUtils.writeByteArrayToFile(explanResultFile,nextStr.getBytes(),true);
+                FileUtils.writeByteArrayToFile(explanResultFile,headStr.getBytes(),true);
 
+                FileUtils.writeByteArrayToFile(explanResultFile,resHtmlStr.getBytes(),true);
 
+                process.destroy();
+
+            }
+
+            LineIterator.closeQuietly(lineIterator);
 
         }
 

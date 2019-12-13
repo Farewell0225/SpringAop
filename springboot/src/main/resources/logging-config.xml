@@ -1,13 +1,42 @@
 <configuration>
+    <timestamp key="bySeconds" dataPattern="yyyMMdd'T'HHmmss"></timestamp>
+
+    <!--添加日志输出，控制台-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>
-                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-            </pattern>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+
         </encoder>
     </appender>
-    <logger name="root" level="INFO"/>
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
+
+    <!--引用控制台输出，级别大于等于warn的日志将输出到控制台-->
+    <root level="warn">
+        <appender-ref ref="STDOUT"/>
+
+    </root>
+
+    <logger name="com.csu.recordlog" level="debug"/>
+    <logger name="org.springframework" level="info"/>
+    <logger name="org.springframework.beans" level="debug"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        　　　　　　　　
+        <file>testFile.log</file>
+        　　　　　　　　
+        <append>true</append>
+        　　　　　　　　
+        <encoder>
+            　　　　　　　　　　
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+            　　　　　　　　
+        </encoder>
+        　　　　　　
+    </appender>
+
+    　　　　　　
+    <root level="DEBUG">
+        　　　　　　
+        <appender-ref ref="FILE"/>
+        　　　　　　
     </root>
 </configuration>
