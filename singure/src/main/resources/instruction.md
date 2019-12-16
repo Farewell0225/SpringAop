@@ -44,25 +44,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
 ## 获取公钥与私钥 
 ### 获取证书
+- https://blog.csdn.net/qq_31289187/article/details/84973338
+#### 使用 linux 工具openssl生成
+- openssl
 
--使用 linux 工具openssl生成
-
-输入指令：openssl
+####输入指令：openssl
 
 - 生成私钥证书
 genrsa -out rsa_oo_private_key.pem 2048
 
--打印私钥
-pkcs8 -topk8 -inform PEM -in rsa_oo_private_key.pem -outform PEM -nocrypt
+####打印私钥
+- pkcs8 -topk8 -inform PEM -in rsa_oo_private_key.pem -outform PEM -nocrypt
 
 
-- 依据私钥证书生成公钥证书
+####依据私钥证书生成公钥证书
 
-rsa -in rsa_oo_private_key.pem -pubout -out rsa_public_key.pem
+- rsa -in rsa_oo_private_key.pem -pubout -out rsa_public_key.pem
 
-- 打印公钥
+####打印公钥
 
-在生成的公钥证书目录下 输入  more rsa_public_key.pem  即可打印公钥
+- 在生成的公钥证书目录下 输入  more rsa_public_key.pem  即可打印公钥
 
 
 
