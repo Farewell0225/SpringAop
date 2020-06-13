@@ -34,6 +34,22 @@ public class TransactionService {
     private TransactionMapper transactionMapper;
 
 
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int intsertTransaction(Users users) {
+
+        System.out.println("插入=============");
+        try {//当此被捕获异常而没有抛出，spring 没有接收到异常则不会做事务处理，默认roll-back="RuntimeException"
+            transactionMapper.insertUser(users);
+        } catch (Exception e) {
+            System.out.println("insert exception!!!");
+            throw e;
+        }
+
+        System.out.println("插入=============end！！！");
+        return -1;
+    }
+
     // 默认运行时异常回滚，传播属性为required，存在事物则继承，不存在则开启事物
     //(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     //@Transactional(propagation = Propagation.REQUIRED)
@@ -53,20 +69,8 @@ public class TransactionService {
 
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public int intsertTransaction(Users users) {
 
-        System.out.println("插入=============");
-        try {//当此被捕获异常而没有抛出，spring 没有接收到异常则不会做事务处理，默认roll-back="RuntimeException"
-            transactionMapper.insertUser(users);
-        } catch (Exception e) {
-            System.out.println("insert exception!!!");
-            throw e;
-        }
 
-        System.out.println("插入=============end！！！");
-        return -1;
-    }
 
     /*
     开启自己的事务，成功后提交，调用方事务是否失败，不会回滚?
