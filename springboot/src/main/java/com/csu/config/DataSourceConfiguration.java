@@ -29,6 +29,10 @@ import java.beans.PropertyVetoException;
 @SpringBootConfiguration
 public class DataSourceConfiguration {
 
+
+    @Value("${c3p0.minPoolSize}")
+    private int minPoolSize;
+
     @Value("${spring.datasource.driver-class-name}")
     private String jdbcDriver;
 
@@ -40,9 +44,6 @@ public class DataSourceConfiguration {
 
     @Value("${spring.datasource.password}")
     private String jdbcPassword;
-
-    @Value("${c3p0.minPoolSize}")
-    private int minPoolSize;
 
     @Value("${c3p0.maxPoolSize}")
     private int maxPoolSize;
