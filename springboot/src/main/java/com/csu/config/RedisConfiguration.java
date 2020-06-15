@@ -234,18 +234,7 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
         return redisTemplate.opsForZSet();
 
-      w
-              w
-              w
-                      w1
-                      ww
-
-
-                              ww
-
-                              ww
-
-
+     sssssssssssssssssss
 
 
 
