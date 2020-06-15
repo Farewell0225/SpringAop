@@ -200,6 +200,16 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     @Bean(name = "valueOperations")
     public ValueOperations<String, Object> valueOperations(RedisTemplate<String, Object> redisTemplate) {
         return redisTemplate.opsForValue();
+
+
+
+
+
+
+
+
+
+
     }
 
     /**
