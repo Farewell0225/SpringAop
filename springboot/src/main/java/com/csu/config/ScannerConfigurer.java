@@ -1,4 +1,3 @@
-/*
 package com.csu.config;
 
 import org.apache.ibatis.annotations.ConstructorArgs;
@@ -39,4 +38,3 @@ public class ScannerConfigurer {
     }
 
 }
-*/
