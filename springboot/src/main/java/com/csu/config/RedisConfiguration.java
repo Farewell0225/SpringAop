@@ -243,11 +243,8 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     @Bean(name = "zSetOperations")
     public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
        wqeqweqe
-
+wqeqweqe
         return redisTemplate.opsForZSet();
-
-     sssssssssssssssssss
-
 
 
     }
