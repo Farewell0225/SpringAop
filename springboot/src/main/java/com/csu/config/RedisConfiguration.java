@@ -245,6 +245,9 @@ public class RedisConfiguration extends CachingConfigurerSupport {
        wqeqweqe
 wqeqweqe
         return redisTemplate.opsForZSet();
+weqwrtret
+
+        ert
 
 
     }
